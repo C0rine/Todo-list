@@ -4,13 +4,51 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private List<String> todos = new ArrayList();
+    private EditText input;
+    private ListAdapter theAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        input = (EditText) findViewById(R.id.editText);
+
+        theAdapter = new ArrayAdapter<String>(this, R.layout.row_layout, R.id.textview1,
+                todos);
+
+        final ListView theListView = (ListView) findViewById(R.id.listView);
+
+        theListView.setAdapter(theAdapter);
+
+        // remove item from the list
+        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                todos.remove(String.valueOf(parent.getItemAtPosition(position)));
+
+                ((ArrayAdapter<String>)theAdapter).notifyDataSetChanged();
+
+            }
+        });
+
+
     }
 
     @Override
@@ -34,4 +72,13 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    // add an item to the list
+    public void addItem(View view) {
+
+        todos.add(String.valueOf(input.getText()));
+        input.setText("");
+        ((ArrayAdapter<String>)theAdapter).notifyDataSetChanged();
+    }
 }
+
