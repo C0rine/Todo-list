@@ -6,5 +6,5 @@ Corine Jacobs
 10001326  
 Corine_J [at] MSN [dot] com  
 
-A simple to list maker for android.  
+A simple to-do list maker for android.  
 Made to practice using ListViews.
